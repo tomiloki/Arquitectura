@@ -1,4 +1,4 @@
-// components/ProductItem.tsx
+// src/app/components/ProductItem.tsx
 interface ProductProps {
   product: {
     id: number;

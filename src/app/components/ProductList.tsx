@@ -1,7 +1,10 @@
-// components/ProductList.tsx
+// src/app/components/ProductList.tsx
+
+"use client";  
+
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import ProductItem from './ProductItem';
+import { getProducts } from '../utils/api';
+import ProductItem from './ProductItem'; // No olvidamos este componente
 
 interface Product {
   id: number;
@@ -10,13 +13,13 @@ interface Product {
 }
 
 const ProductList = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]); // Tipamos el estado como un array de productos
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<Product[]>('/api/productos'); // Aquí especificamos que la respuesta será de tipo Product[]
-        setProducts(response.data); // Ya no tendrás problemas con el tipo de 'response.data'
+        const data: Product[] = await getProducts(); // Tipamos la respuesta como un array de productos
+        setProducts(data); // Ahora TypeScript sabe que data es Product[]
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -29,7 +32,7 @@ const ProductList = () => {
     <div className="grid grid-cols-3 gap-4">
       {products.length > 0 ? (
         products.map((product) => (
-          <ProductItem key={product.id} product={product} />
+          <ProductItem key={product.id} product={product} /> // Usamos ProductItem para cada producto
         ))
       ) : (
         <p>No hay productos disponibles</p>

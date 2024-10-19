@@ -1,16 +1,19 @@
-// components/ProductForm.tsx
-import { useState } from 'react';
-import axios from 'axios';
+"use client";  // Esto es necesario porque usas hooks como useState
 
-const ProductForm = () => {
+import { useState } from 'react';
+import { createProduct } from '../utils/api';
+
+const ProductForm = ({ onProductAdded }: { onProductAdded: () => void }) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/productos', { name, price });
-      console.log('Producto creado:', response.data);
+      const newProduct = { name, price: Number(price) };
+      const response = await createProduct(newProduct);
+      console.log(response);
+      onProductAdded();  // Llamamos a la función que refresca la lista
     } catch (error) {
       console.error('Error creando producto:', error);
     }
@@ -19,8 +22,12 @@ const ProductForm = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium">Nombre del producto</label>
+        <label htmlFor="productName" className="block text-sm font-medium">
+          Nombre del producto
+        </label>
         <input
+          id="productName"
+          name="name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -29,8 +36,12 @@ const ProductForm = () => {
         />
       </div>
       <div>
-        <label className="block text-sm font-medium">Precio</label>
+        <label htmlFor="productPrice" className="block text-sm font-medium">
+          Precio
+        </label>
         <input
+          id="productPrice"
+          name="price"
           type="number"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
