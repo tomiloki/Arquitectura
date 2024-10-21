@@ -33,6 +33,7 @@ const ProductForm = ({ onProductAdded }: { onProductAdded: () => void }) => {
           onChange={(e) => setName(e.target.value)}
           className="border rounded w-full p-2"
           required
+          autoComplete="name"
         />
       </div>
       <div>
@@ -47,6 +48,7 @@ const ProductForm = ({ onProductAdded }: { onProductAdded: () => void }) => {
           onChange={(e) => setPrice(e.target.value)}
           className="border rounded w-full p-2"
           required
+          autoComplete="off"
         />
       </div>
       <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">

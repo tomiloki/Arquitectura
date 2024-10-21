@@ -1,7 +1,11 @@
+
+"use client";
+
 import ProductList from '../components/ProductList';
 import ProductForm from '../components/ProductForm';
 import { useState, useEffect } from 'react';
-import { getProducts } from '../utils/api';
+import { getProducts, Product } from '../utils/api'; // Si la interfaz Product está en api.ts
+
 
 export default function Page() {  // El archivo es Page porque es el nombre que Next.js usa para rutas
   const [products, setProducts] = useState<Product[]>([]);
