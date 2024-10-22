@@ -1,4 +1,4 @@
-"use client";  // Esto es necesario porque usas hooks como useState
+"use client";  // Es un Client Component ya que usa hooks como useState
 
 import { useState } from 'react';
 import { createProduct } from '../utils/api';
@@ -13,16 +13,16 @@ const ProductForm = ({ onProductAdded }: { onProductAdded: () => void }) => {
       const newProduct = { name, price: Number(price) };
       const response = await createProduct(newProduct);
       console.log(response);
-      onProductAdded();  // Llamamos a la función que refresca la lista
+      onProductAdded();  // Llamamos a la función que actualiza la lista de productos
     } catch (error) {
       console.error('Error creando producto:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-4 max-w-md mx-auto">
       <div>
-        <label htmlFor="productName" className="block text-sm font-medium">
+      <label htmlFor="productName" className="block text-sm font-medium text-gray-700">
           Nombre del producto
         </label>
         <input
@@ -31,13 +31,13 @@ const ProductForm = ({ onProductAdded }: { onProductAdded: () => void }) => {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border rounded w-full p-2"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
           required
           autoComplete="name"
         />
       </div>
       <div>
-        <label htmlFor="productPrice" className="block text-sm font-medium">
+      <label htmlFor="productPrice" className="block text-sm font-medium text-gray-700">
           Precio
         </label>
         <input
@@ -46,12 +46,13 @@ const ProductForm = ({ onProductAdded }: { onProductAdded: () => void }) => {
           type="number"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          className="border rounded w-full p-2"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
           required
           autoComplete="off"
         />
       </div>
-      <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+      <button type="submit" className="w-full bg-sky-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-sky-600 focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
+      >
         Agregar Producto
       </button>
     </form>

@@ -1,20 +1,21 @@
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from './api/auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    // Evitar redireccionar si ya estamos en /auth/signin para no crear un bucle
+    const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+    if (pathname !== '/auth/signin') {
+      redirect('/auth/signin');
+    }
+  }
+
   return (
     <html lang="es">
-      <head />
-      <body className="bg-gray-100">
-        <header className="p-4 bg-blue-600 text-white">
-          <h1 className="text-2xl">Mi Aplicación</h1>
-        </header>
-        <main>{children}</main>
-        <footer className="p-4 bg-blue-600 text-white text-center">
-          © 2024 Mi Aplicación
-        </footer>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

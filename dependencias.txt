@@ -1,0 +1,10 @@
+npm install next react react-dom
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npm install prisma --save-dev
+npm install @prisma/client
+npm install next-auth
+npm install axios
+npm install uuid
+npm install eslint --save-dev
+npm install bcryptjs

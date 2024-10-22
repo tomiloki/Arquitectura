@@ -1,23 +1,22 @@
-// src/app/api/productos/route.ts
 import { NextResponse } from 'next/server';
-import { v4 as uuidv4 } from 'uuid';
+import { PrismaClient } from '@prisma/client';
 
-// Simulamos algunos productos
-let products = [
-  { id: uuidv4(), name: "Producto 1", price: 10 },
-  { id: uuidv4(), name: "Producto 2", price: 20 },
-  { id: uuidv4(), name: "Producto 3", price: 30 },
-];
+const prisma = new PrismaClient();  // Instanciamos Prisma
 
-// Manejo de la solicitud GET: devuelve la lista de productos
+// Obtener todos los productos
 export async function GET() {
+  const products = await prisma.product.findMany();  // Usamos Prisma para obtener los productos
   return NextResponse.json(products);
 }
 
-// Manejo de la solicitud POST: recibe un nuevo producto
+// Crear un nuevo producto
 export async function POST(request: Request) {
-    const body = await request.json();
-    const newProduct = { id: uuidv4(), ...body };  // Asignamos un ID único
-    products.push(newProduct);  // Agregamos el producto recibido a la lista
-    return NextResponse.json({ message: "Producto agregado con éxito", product: newProduct });
-  }
+  const body = await request.json();
+  const newProduct = await prisma.product.create({
+    data: {
+      name: body.name,
+      price: body.price,
+    },
+  });
+  return NextResponse.json(newProduct);
+}

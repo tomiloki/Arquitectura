@@ -1,18 +1,30 @@
-// src/app/page.tsx
-import Link from 'next/link';
+"use client"; // Necesario para usar hooks en Client Components
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold">¡Bienvenido a mi Catálogo de Productos!</h1>
-      <p className="mt-4 text-lg">Empieza a agregar productos o ver el listado disponible.</p>
-      
-      {/* Botón para ir a la página de productos */}
-      <Link href="/productos">
-        <button className="mt-6 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-          Ver Productos
-        </button>
-      </Link>
-    </main>
-  );
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+export default function WelcomePage() {
+  const { status, data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/protected'); // Redirigir a una página protegida si no está autenticado
+    }
+  }, [status, router]);
+
+  if (status === 'loading') {
+    return <div>Cargando...</div>;
+  }
+
+  if (status === 'authenticated') {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-2xl font-bold">Bienvenido, {session?.user?.email}</h1>
+      </div>
+    );
+  }
+
+  return null;
 }
