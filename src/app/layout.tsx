@@ -1,21 +1,28 @@
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from './api/auth/[...nextauth]/route';
-import { redirect } from 'next/navigation';
+// app/layout.tsx
+import './globals.css';  // Aquí puedes importar tus estilos globales
+import { ReactNode } from 'react';
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    // Evitar redireccionar si ya estamos en /auth/signin para no crear un bucle
-    const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
-    if (pathname !== '/auth/signin') {
-      redirect('/auth/signin');
-    }
-  }
-
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body>
+        <header>
+          <nav>
+            <ul>
+              <li><a href="/">Inicio</a></li>
+              <li><a href="/productos">Productos</a></li>
+            </ul>
+          </nav>
+        </header>
+        
+        <main>
+          {children}  {/* Renderiza las páginas aquí */}
+        </main>
+
+        <footer>
+          <p>© 2024 Mi Aplicación</p>
+        </footer>
+      </body>
     </html>
   );
 }

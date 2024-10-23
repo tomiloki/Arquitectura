@@ -20,11 +20,3 @@ model Product {
   createdAt DateTime @default(now())  // Fecha automática de creación
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-}
-
-
